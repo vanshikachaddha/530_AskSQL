@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-run:
@@ -25,14 +25,8 @@ jobs:
         run: |
           docker build -f docker/Dockerfile -t chat-sql-ai .
 
-      - name: Run test container
+      - name: Run test container with embedded Python
         run: |
           echo "SELECT * FROM students;" | docker run --rm -i \
             -e OPENAI_API_KEY=$OPENAI_API_KEY \
-            chat-sql-ai python -c "
-import sqlite3
-import pandas as pd
-conn = sqlite3.connect('students.db')
-df = pd.read_sql_query(input(), conn)
-print(df.head())
-"
+            chat-sql-ai python -c "import sqlite3; import pandas as pd; conn = sqlite3.connect('students.db'); df = pd.read_sql_query(input(), conn); print(df.head())"
