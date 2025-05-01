@@ -61,7 +61,3 @@ requirements.txt             ← Python dependencies
 - Requires OpenAI GPT-4 API key  
 - Uses only Python standard libraries + `openai` and `pandas`  
 - SQLite is used for simplicity and portability  
-
-## License
-
-MIT
